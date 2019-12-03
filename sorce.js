@@ -1,4 +1,3 @@
-const whith;
 myBtn.onclick = createNewWind;
 	function showCover() {
       let coverDiv = document.createElement('div');
@@ -44,7 +43,6 @@ myBtn.onclick = createNewWind;
 				alert(err.stack);
 			}
 			let bytton = document.querySelectorAll('.product-wrapper');
-			bytton.style.width = whith + 'px';
 			bytton[bytton.length - 2].onclick = function(event) {
 			if (event.target.className != 'remove-button') return;
 			let pane = event.target.closest('.product-wrapper');
@@ -129,13 +127,6 @@ myBtn.onclick = createNewWind;
 		for(let k = 0; k < localStorage.length/4;k++)
 			createNewElem(localStorage.getItem(`name${k}`), localStorage.getItem(`category${k}`)
 		, localStorage.getItem(`price${k}`), localStorage.getItem(`photo${k}`));
-	let t = (document.documentElement.clientWidth);
-	if (t <= 600)
-		whith = t*0.9;
-	else if (t <= 800)
-		whith = t*0.45;
-	else if (t <= 1000)
-		whith = t*0.30;
   }
 
   document.addEventListener("DOMContentLoaded", load);
