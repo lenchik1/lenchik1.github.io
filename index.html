@@ -1,47 +1,50 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<script>
+let eventSource;
 
-<head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="sty.css">
-  <style>
-	
-</style>
-</head>
+function start() { // когда нажата кнопка "Старт"
+  if (!window.EventSource) {
+    // Internet Explorer или устаревшие браузеры
+    alert("Ваш браузер не поддерживает EventSource.");
+    return;
+  }
 
-<body>
-<header>
-Список товаров.
-</header>
-<ul class="products clearfix">
-	<li class="product-wrapper">
-		<div class="add">
-				<img src="./add.png" alt="" id="myBtn" tabindex>
-			
-		</div>
-	</li>
-</ul>
+  eventSource = new EventSource('digits');
 
- <div id="prompt-form-container">
-  <div class='artical'>Добавить товар.</div>
-    <form id="prompt-form">
-      <div>Введите название.</div>
-      <input name="name" type="text">
-	  <div>Введите категорию.</div>
-	  <input name="category" type="text">
-	  <div>Введите цену.</div>
-	  <input name="price" type="text">
-	  <div>Введите путь до картинки.</div>
-	  <input name="img" type="text">
-      <input type="submit" value="Ok">
-      <input type="button" name="cancel" value="Отмена">
-	  
-    </form>
-  </div>
-  <script src = 'sorce.js'>
+  eventSource.onopen = function(e) {
+    log("Событие: open");
+  };
 
-  </script>
+  eventSource.onerror = function(e) {
+    log("Событие: error");
+    if (this.readyState == EventSource.CONNECTING) {
+      log(`Переподключение (readyState=${this.readyState})...`);
+    } else {
+      log("Произошла ошибка.");
+    }
+  };
 
-</body>
+  eventSource.addEventListener('bye', function(e) {
+    log("Событие: bye, данные: " + e.data);
+  });
 
-</html>
+  eventSource.onmessage = function(e) {
+    log("Событие: message, данные: " + e.data);
+  };
+}
+
+function stop() { // когда нажата кнопка "Стоп"
+  eventSource.close();
+  log("Соединение закрыто");
+}
+
+function log(msg) {
+  logElem.innerHTML += msg + "<br>";
+  document.documentElement.scrollTop = 99999999;
+}
+</script>
+
+<button onclick="start()">Старт</button> Нажмите кнопку "Старт" для начала
+<div id="logElem" style="margin: 6px 0"></div>
+
+<button onclick="stop()">Стоп</button> Чтобы закончить, нажмите "Стоп".
