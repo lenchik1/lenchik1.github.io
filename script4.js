@@ -378,6 +378,11 @@ function makeTable(data, excretion=false, typeRez='tb'){
 	return rez;
 }
 document.querySelector('.dropdown-menu').innerHTML = makeTable(dataCompany, false, 'liInn');
+
+let a = document.querySelector('.dropdown-menu').getElementsByTagName("li");
+	for (i = 0; i < a.length; i++)
+	a[i].addEventListener("click", function(event){document.getElementById("searchInn").value = "551289663";
+	});
 function prod(path){
 		document.getElementById('recommendedProducts').innerHTML = personInfo[path].recommendedProducts.reduce((str, obj, index) => str + `<li class="recom tabelForm longTabl">
 		<div class="contentProduct" data-toggle="modal" data-target="#exampleModal1${index}"><div style="
