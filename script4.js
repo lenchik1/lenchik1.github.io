@@ -11,7 +11,7 @@ let dataCompany =
 		'Срок отношений' :	'3 года'
 	},
 	"contactPersons": ['Майорова Кира Кирилловна', 'Никитин Николай Петрович', 'Аникин Кирилл Витальевич', 'Смирнов Михаил Савельевич', 
-	'Смирнов Илья Алексеевич', 'Дмитрий Борисович Александров', 'Трифонова Николь Романовна' ],
+	'Смирнов Илья Алексеевич', 'Дмитрий Борисович Александров'],
 	
 	'historyAct': [
 				{
@@ -167,7 +167,7 @@ let personInfo={
 	'Майорова Кира Кирилловна' : {
 		'img':'https://image.flaticon.com/icons/png/512/74/74273.png',
 		'generalInformation' :{
-			'Должность':	'Директор по закупкам',
+			'Должность':	'Владелец',
 			'ЛПР':	'Да',
 			'Телефон':	'8-915-525-57-21',
 		'E-mail':	'Maiorov.KK@test.ru'},
@@ -200,7 +200,7 @@ let personInfo={
 	, 'Никитин Николай Петрович' : {
 		'img':'https://image.flaticon.com/icons/png/512/74/74273.png',
 		'generalInformation' :{
-			'Должность':	'Директор по закупкам',
+			'Должность':	'Генеральный директор',
 			'ЛПР':	'Да',
 			'Телефон':	'8-915-525-57-21',
 		'E-mail':	'Nikitin.NP@test.ru'},
@@ -228,7 +228,7 @@ let personInfo={
 	, 'Аникин Кирилл Витальевич' : {
 		'img':'https://image.flaticon.com/icons/png/512/74/74273.png',
 		'generalInformation' :{
-			'Должность':	'Директор по закупкам',
+			'Должность':	'Финансовый директор',
 			'ЛПР':	'Да',
 			'Телефон':	'8-915-525-57-21',
 		'E-mail':	'Anikin.KV@test.ru'},
@@ -261,7 +261,7 @@ let personInfo={
 	, 'Смирнов Михаил Савельевич' : {
 		'img':'https://image.flaticon.com/icons/png/512/74/74273.png',
 		'generalInformation' :{
-			'Должность':	'Директор по закупкам',
+			'Должность':	'Маркетинговый директор',
 			'ЛПР':	'Нет',
 			'Телефон':	'8-915-525-57-21',
 		'E-mail':	'Smirnov.MS@test.ru'},
@@ -290,7 +290,7 @@ let personInfo={
 	, 'Смирнов Илья Алексеевич' : {
 		'img':'https://image.flaticon.com/icons/png/512/74/74273.png',
 		'generalInformation' :{
-			'Должность':	'Директор по закупкам',
+			'Должность':	'Главный бухгалтер',
 			'ЛПР':	'Да',
 			'Телефон':	'8-915-525-57-21',
 		'E-mail':	'Smirnov.IA@test.ru'},
@@ -452,12 +452,14 @@ function prod(path){
 		</div>
 	</div></li>`, '');}
 $('#innSearchButton').click(function(event){
-	/*if(!(searchInn.value in dataCompany)) return;*/
-	
-	document.getElementById('NameComp').innerHTML = dataCompany["551289663"].Name;
-	document.getElementById('info-about-camp').innerHTML =  makeTable(dataCompany["551289663"].infoAbout, true);
-	document.getElementById('myDropdown').lastElementChild.innerHTML = dataCompany["551289663"].contactPersons.reduce((str, pilot) => str + '<a>' + pilot + '</a>', '');
-	document.querySelector(".scroll-area").innerHTML = dataCompany["551289663"].historyAct.reduce((str, obj, index) => str + `<div class="vertical-timeline-item vertical-timeline-element"><span class="vertical-timeline-element-icon bounce-in"> <i class="badge badge-dot badge-dot-xl badge-warning" style="
+	if(!(searchInn.value in dataCompany)) return;
+	let inn = searchInn.value;
+	document.getElementById('NameComp').innerHTML = dataCompany[inn].Name;
+	document.getElementById('info-about-camp').innerHTML =  makeTable(dataCompany[inn].infoAbout, true);
+	document.getElementById('myDropdown').lastElementChild.innerHTML = dataCompany[inn].contactPersons.reduce((str, pilot) => str + `<li class="flex justify-between items-center p-2  rounded cursor-pointer transition" style="
+    border-bottom: 1px solid #e6dfdf;"><span>${pilot}</span><span class="text-gray-600 text-sm text-right ml-3 flex flex-col w-32" style="align-self: center;">${personInfo[pilot].generalInformation['Должность']}</span>  </div>
+      </li>`, '');
+	document.querySelector(".scroll-area").innerHTML = dataCompany[inn].historyAct.reduce((str, obj, index) => str + `<div class="vertical-timeline-item vertical-timeline-element"><span class="vertical-timeline-element-icon bounce-in"> <i class="badge badge-dot badge-dot-xl badge-warning" style="
 		background-color: #35428b;
 		"> </i> </span>
 		<div> <span class="vertical-timeline-element-icon bounce-in"> <i class="badge badge-dot badge-dot-xl badge-success"></i> </span>
@@ -470,17 +472,17 @@ $('#innSearchButton').click(function(event){
 		</div>
 	</div>`, '<div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">') + '</div>';
 
-	document.getElementById('generalInformation').innerHTML = makeTable(personInfo[dataCompany["551289663"].last].generalInformation);
-	document.getElementById('psychographicSegmentation').innerHTML = makeTable(personInfo[dataCompany["551289663"].last].psychographicSegmentation);
-	document.getElementById('personImg').innerHTML = `<img src="${personInfo[dataCompany["551289663"].last].img}" style="height: 100%;margin: auto;" class="rounded-full">`;
-	document.getElementById('namePepson').innerHTML = dataCompany["551289663"].last;
+	document.getElementById('generalInformation').innerHTML = makeTable(personInfo[dataCompany[inn].last].generalInformation);
+	document.getElementById('psychographicSegmentation').innerHTML = makeTable(personInfo[dataCompany[inn].last].psychographicSegmentation);
+	document.getElementById('personImg').innerHTML = `<img src="${personInfo[dataCompany[inn].last].img}" style="height: 100%;margin: auto;" class="rounded-full">`;
+	document.getElementById('namePepson').innerHTML = dataCompany[inn].last;
 	
-	prod(dataCompany["551289663"].last);
+	prod(dataCompany[inn].last);
 	
 	
-	let a = document.getElementById("myDropdown").getElementsByTagName("a");
+	let a = document.getElementById("myDropdown").getElementsByTagName("li");
 	for (i = 0; i < a.length; i++)
-	a[i].addEventListener("click", function(event){document.getElementById("myInput").value = event.target.innerHTML;
+	a[i].addEventListener("click", function(event){document.getElementById("myInput").value = event.target.closest('li span').innerHTML;
 		filterFunction();document.getElementById("myInput").focus();
 		
 	});
@@ -504,17 +506,19 @@ $('#innSearchButton').click(function(event){
 		var input, filter, ul, li, a, i;
 		input = document.getElementById("myInput");
 		filter = input.value.toUpperCase();
-		div = document.getElementById("myDropdown");
-		a = div.getElementsByTagName("a");
-		for (i = 0; i < a.length; i++) {
-			txtValue = a[i].textContent || a[i].innerText;
-			if (txtValue.toUpperCase().indexOf(filter) > -1) {
-				a[i].style.display = "";
+		a = document.querySelectorAll("#myDropdown li span");
+
+		for (i = 0; i < a.length/2; i++) {
+			txtValue = a[i*2].textContent || a[i*2].innerText;
+			txtValue1 = a[i*2 + 1].textContent || a[i*2 + 1].innerText;
+
+			if (a[i*2].innerText.toUpperCase().indexOf(filter) > -1 || a[i*2 + 1].innerText.toUpperCase().indexOf(filter) > -1 ) {
+				a[i*2].parentElement.style.display = "";
 				} else {
-				a[i].style.display = "none";
+				a[i*2].parentElement.style.display = "none";
 			}
 		}
-		console.log(input.value);
+		
 		if(event!=0 && event.which == 13) {
 			
 			document.getElementById('generalInformation').innerHTML = makeTable(personInfo[input.value].generalInformation);
