@@ -351,6 +351,10 @@ let personInfo={
 	}
 	
 };
+/*
+<li class="flex justify-between items-center p-2  rounded cursor-pointer transition w-80" style="
+    border-bottom: 1px solid #e6dfdf;"><span class="text-lg">${key}</span><span class="text-gray-600 text-sm text-right ml-3 flex flex-col" style="align-self: center;">${value.name}</span>  
+</li>*/
 
 function makeTable(data, excretion=false, typeRez='tb'){
 	rez='';
@@ -360,15 +364,20 @@ function makeTable(data, excretion=false, typeRez='tb'){
 		if(excretion && i++%2==0)
 		rez+='<tr style="background: #f9f9f9;"><th><b>'+key+'</b></th><th>'+value+'</th></tr>';
 		else if(typeRez=='li')
-		if(typeof value == "object")
-		rez+='<li class="list"><b>'+key+':</b> '+value.main+'<ul class="additionalList">'+value.others.reduce((str, obj)=>str+'<li>'+ obj+'</li>', '')+'</ul></li>';
-		else
-		rez+='<li class="list"><b>'+key+':</b> '+value+'</li>';
+			if(typeof value == "object")
+				rez+='<li class="list"><b>'+key+':</b> '+value.main+'<ul class="additionalList">'+value.others.reduce((str, obj)=>str+'<li>'+ obj+'</li>', '')+'</ul></li>';
+			else
+				rez+='<li class="list"><b>'+key+':</b> '+value+'</li>';
+		else if(typeRez=='liInn')
+			rez+=`<li class="flex justify-between items-center p-2  rounded cursor-pointer transition w-80" style="
+    border-bottom: 1px solid #e6dfdf;"><span class="text-lg">${key}</span><span class="text-gray-600 text-sm text-right ml-3 flex flex-col" style="align-self: center;">${value.Name}</span>  
+</li>`;
 		else
 		rez+='<tr ><th style="width: 50%;"><b>'+key+'</b></th><th>'+value+'</th></tr>';
 	}
 	return rez;
 }
+document.querySelector('.dropdown-menu').innerHTML = makeTable(dataCompany, false, 'liInn');
 function prod(path){
 		document.getElementById('recommendedProducts').innerHTML = personInfo[path].recommendedProducts.reduce((str, obj, index) => str + `<li class="recom tabelForm longTabl">
 		<div class="contentProduct" data-toggle="modal" data-target="#exampleModal1${index}"><div style="
